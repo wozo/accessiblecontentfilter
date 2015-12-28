@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="de" xml:lang="de">
+	
+<head>
+	<meta charset="UTF-8">
+	<title>Filter Test</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<body>
+
+	<div id="wat-cf">
+		
+		<div class="wat-cf-entry" data-cat1="American Express, JCB, Diners Club, Mastercard, Visa" data-cat2="Catering, Family, Midnight, Wifi, Garden" data-cat3="1010">
+			<h3>Testhotel 1 1010</h3>
+			<strong>
+				data-cat1="American Express, JCB, Diners Club, Mastercard, Visa"<br>
+				data-cat2="Catering, Family, Midnight, Wifi, Garden"<br>
+				data-cat3="1010"
+			</strong>
+		</div>
+		
+		<div class="wat-cf-entry" data-cat1="Mastercard, Visa" data-cat2="Catering, Wifi" data-cat3="1020">
+			<h3>Testhotel 2 1020</h3>
+			<strong>
+				data-cat1="Mastercard, Visa"<br>
+				data-cat2="Catering, Wifi"<br>
+				data-cat3="1020"
+			</strong>
+			
+		</div>
+		
+		<div class="wat-cf-entry" data-cat1="JCB, Mastercard, Visa" data-cat2="Garden, Wifi" data-cat3="1030">
+			<h3>Testhotel 3 1030</h3>
+			<strong>
+				data-cat1="JCB, Mastercard, Visa"<br>
+				data-cat2="Garden, Wifi"<br>
+				data-cat3="1030"
+			</strong>
+			
+		</div>
+		
+		<div class="wat-cf-entry" data-cat1="Visa" data-cat2="" data-cat3="1010">
+			<h3>Testhotel 4 1010</h3>
+			<strong>
+				data-cat1="Visa"<br>
+				data-cat2=""<br>
+				data-cat3="1010"
+			</strong>
+		</div>
+		
+		<div class="wat-cf-entry" data-cat1="Mastercard, Visa" data-cat2="Wifi" data-cat3="1010">
+			<h3>Testhotel 5 1010</h3>
+			<strong>
+				data-cat1="Mastercard, Visa"<br>
+				data-cat2=""<br>
+				data-cat3="1010"
+			</strong>
+		</div>
+		
+				
+		<div class="wat-cf-entry" data-cat1="Mastercard, Visa" data-cat2="Family, Midnight" data-cat3="1120">
+			<h3>Testhotel 6 1120</h3>
+			<strong>
+				data-cat1="Mastercard, Visa"<br>
+				data-cat2="Family, Midnight"<br>
+				data-cat3="1120"
+			</strong>
+		</div>
+		
+		<div class="wat-cf-entry" data-cat1="Diners Club" data-cat2="Garden" data-cat3="1140">
+			<h3>Testhotel 7 1140</h3>
+			<strong>
+				data-cat1="Diners Club"<br>
+				data-cat2="Garden"<br>
+				data-cat3="1140"
+			</strong>
+		</div>
+		
+		<div class="wat-cf-entry" data-cat1="JCB" data-cat2="Catering" data-cat3="1140">
+			<h3>Testhotel 8 1140</h3>
+			<strong>
+				data-cat1="JCB"<br>
+				data-cat2="Catering"<br>
+				data-cat3="1140"
+			</strong>
+		</div>
+	
+	</div>
+
+
+	<script type="text/javascript" src="jquery.accesibleContentFilter.js"></script>
+	
+	<script type="text/javascript"> 
+	$(document).ready(function(){
+	    $("#wat-cf").acf({});
+	
+	});
+	</script>
+
+</body>
+
+</html>
+
+
