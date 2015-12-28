@@ -9,16 +9,19 @@
 
 Experimental "in page" accesible content filter with jquery
 the values are stored by up to 3 (!) data attributes (data-cat1, data-cat2, data-cat3) e.g.:
+    ```html
     <pre>
     <div class="wat-cf-entry" data-cat1="American Express, JCB, Diners Club, Mastercard, Visa" data-cat2="Catering, Family, Wifi, Garden" data-cat3="1010"> 
             entry text 
     </div>
     </pre>
+    ```
 
 ### init
 
 init the plugin (jquery required)
 
+```html
 <pre>
 <script type="text/javascript"> 
 $(document).ready(function(){
@@ -26,6 +29,7 @@ $(document).ready(function(){
 });
 </script>
 </pre>
+```
 
 ### config
 <pre>
