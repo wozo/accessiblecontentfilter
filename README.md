@@ -7,7 +7,7 @@
 
 ## description
 
-Experimental "in page" accesible content filter with jquery, 
+Experimental "in page" accessible content filter with jquery, 
 the values are stored by up to 3 (!) data attributes (data-cat1, data-cat2, data-cat3) e.g.:
 
 ```html
