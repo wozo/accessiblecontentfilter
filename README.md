@@ -35,6 +35,7 @@ $(selector).acf({
 	cat1FormLabel: "Category1", //category label
 	cat2FormLabel: "Category2", //category label
 	cat3FormLabel: "Category3", //category label
+	catCheckBoxRel: "and", // relation between checkboxes "and" / "or"
 	cat1FormTyp: "select", //"select", "checkbox", false
 	cat2FormTyp: "select", //"select", "checkbox", false
 	cat3FormTyp: "select", //"select", "checkbox", false
@@ -43,10 +44,12 @@ $(selector).acf({
 	catResetText: "reset", //reset text
 	catHideModus: "fade", //"fade" or "test" (red background)
 	catNoResult: "Sorry, no matching items for this filter found.", //no item found text
+	catNoResultHTML: "h2", // html element for the result messages
 	catYesResult: "matches found.", // matches text
 	catYesSingleResult: "match found.", // match text
 	catFilterLegend: "Choose filter categories", //legend text
-	catAllText: "any" //any text
+	catAllText: "all", //any text
+	catAnyText: "any" //checkbox label text for default checkbox (and relation) 
 });
 ```
 

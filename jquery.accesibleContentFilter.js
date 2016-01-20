@@ -28,15 +28,18 @@ $(function () {
 			cat1FormTyp: "select",
 			cat2FormTyp: "select",
 			cat3FormTyp: "select",
+			catCheckBoxRel: "and",
 			catErrorNoType: "No form element type for this category defined",
 			catSubmitText: "apply",
 			catResetText: "reset",
 			catHideModus: "fade",
 			catNoResult: "Sorry, no matching items for this filter found.",
+			catNoResultHTML: "h2",
 			catYesResult: "matches found.",
 			catYesSingleResult: "match found.",
 			catFilterLegend: "Choose filter categories",
-			catAllText: "any"
+			catAllText: "all",
+			catAnyText: "any"
 			
 		}, settings );
 
@@ -92,7 +95,7 @@ $(function () {
 					var acfSel1 = $('<div class="acf_formitem acf_select"><label for="acf_Select1">' + settings.cat1FormLabel + ': </label><select id="acf_Select1" name="acf_Select1">').appendTo("#acfFilterbar");
 					$('#acf_Select1').append($("<option>").attr('value', settings.catAllText).text(settings.catAllText));
 					$(cat1Array).each(function(k1,v1) {
-					 $('#acf_Select1').append($("<option>").attr('value',v1).text(v1));
+						$('#acf_Select1').append($("<option>").attr('value',v1).text(v1));
 					});
 				}
 				else if(settings.cat1FormTyp == "checkbox") {
@@ -101,8 +104,12 @@ $(function () {
 						var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
 						$('#acf_checkboxes1').append(tempCheck);
 					});
-					var tempCheckAny = '<label for="acf_checkboxes1_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup1" value="' + settings.catAllText + '" id="acf_checkboxes1_any"> ' + settings.catAllText + '</label> ';
-					$('#acf_checkboxes1').append(tempCheckAny);
+					if (settings.catCheckBoxRel == 'and') {
+						var tempCBDef = settings.catAnyText;
+						var tempCheckAny = '<label for="acf_checkboxes1_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup1" value="' + tempCBDef + '" id="acf_checkboxes1_any"> ' + tempCBDef + '</label> ';
+						$('#acf_checkboxes1').append(tempCheckAny);
+					}
+					
 				}
 				else if(settings.cat1FormTyp == false) {
 				//nothing
@@ -117,7 +124,7 @@ $(function () {
 					var acfSel2 = $('<div class="acf_formitem acf_select"><label for="acf_Select2">' + settings.cat2FormLabel + ': </label><select id="acf_Select2" name="acf_Select2">').appendTo("#acfFilterbar");
 					$('#acf_Select2').append($("<option>").attr('value', settings.catAllText).text(settings.catAllText));
 					$(cat2Array).each(function(k1,v1) {
-					 $('#acf_Select2').append($("<option>").attr('value',v1).text(v1));
+						$('#acf_Select2').append($("<option>").attr('value',v1).text(v1));
 					});
 				}
 				else if(settings.cat2FormTyp == "checkbox") {
@@ -126,8 +133,12 @@ $(function () {
 						var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
 						$('#acf_checkboxes2').append(tempCheck);
 					});
-					var tempCheckAny = '<label for="acf_checkboxes2_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup2" value="' + settings.catAllText + '" id="acf_checkboxes2_any"> ' + settings.catAllText + '</label> ';
-					$('#acf_checkboxes2').append(tempCheckAny);
+						
+					if (settings.catCheckBoxRel == 'and') {
+						var tempCBDef = settings.catAnyText;
+						var tempCheckAny = '<label for="acf_checkboxes2_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup2" value="' + tempCBDef + '" id="acf_checkboxes2_any"> ' + tempCBDef + '</label> ';
+						$('#acf_checkboxes2').append(tempCheckAny);
+					}			
 				}
 				else if(settings.cat2FormTyp == false) {
 				//nothing
@@ -142,7 +153,7 @@ $(function () {
 					var acfSel3 = $('<div class="acf_formitem acf_select"><label for="acf_Select3">' + settings.cat3FormLabel + ': </label><select id="acf_Select3" name="acf_Select3">').appendTo("#acfFilterbar");
 					$('#acf_Select3').append($("<option>").attr('value', settings.catAllText).text(settings.catAllText));
 					$(cat3Array).each(function(k1,v1) {
-					 $('#acf_Select3').append($("<option>").attr('value',v1).text(v1));
+						$('#acf_Select3').append($("<option>").attr('value',v1).text(v1));
 					});
 				}
 				else if(settings.cat3FormTyp == "checkbox") {
@@ -151,8 +162,14 @@ $(function () {
 						var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
 						$('#acf_checkboxes3').append(tempCheck);
 					});
-					var tempCheckAny = '<label for="acf_checkboxes3_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup3" value="' + settings.catAllText + '" id="acf_checkboxes3_any"> ' + settings.catAllText + '</label> ';
-					$('#acf_checkboxes3').append(tempCheckAny);
+					
+					if (settings.catCheckBoxRel == 'and') {
+						var tempCBDef = settings.catAnyText;
+						var tempCheckAny = '<label for="acf_checkboxes3_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup3" value="' + tempCBDef + '" id="acf_checkboxes3_any"> ' + tempCBDef + '</label> ';
+						$('#acf_checkboxes3').append(tempCheckAny);
+					}
+					
+					
 				}
 				else if(settings.cat3FormTyp == false) {
 				//nothing
@@ -162,9 +179,11 @@ $(function () {
 				}
 			}
 			var tempButt = $('<div id="acf_buttons"><input id="acf_submit" type="submit" value="' + settings.catSubmitText + '"><input id="acf_reset" type="reset" value="' + settings.catResetText + '"></div>').appendTo("#acfFilterbar");
-			$(settings.listClass).wrapAll( "<div id='acf_mainEntries' aria-live='polite'  />");
+			//$(settings.listClass).wrapAll( "<div id='acf_mainEntries' aria-live='polite'  />");
+			$( "<div id='acf_mainEntries' aria-live='polite'  />" ).insertAfter( "#acf_mainForm" );
 			$("#acf_mainForm fieldset").prepend('<legend id="acf_mainFormLegend">' + settings.catFilterLegend + "</legend>");
-			var tempH2 = $('<h2 id="acf_resultcnt">').prependTo("#acf_mainEntries");
+			
+			var tempH2 = $('<' + settings.catNoResultHTML + ' id="acf_resultcnt">').prependTo("#acf_mainEntries");
 			var itemAnz = $(settings.listClass).length;
 			if(itemAnz == 0) {
 				$("#acf_resultcnt").html(itemAnz + " " + settings.catNoResult);
@@ -197,7 +216,11 @@ $(function () {
 				selectedValArray2 = selectedReturnArray[2];
 				selectedValArray3 = selectedReturnArray[3];
 				
-				//if any is selected in select or chackboxes -> value check is always true
+				console.log("selectedValArray1.lenght=" + selectedValArray1.length);
+				console.log("selectedValArray2.lenght=" + selectedValArray2.length);
+				console.log("selectedValArray3.lenght=" + selectedValArray3.length);
+				
+				//if any is selected in select or checkboxes -> value check is always true
 				if ((selectedValArray1.length == cat1Array.length) && settings.cat1FormTyp == "select") {
 					//console.log("cat 1 any select");
 					runVal1 = true;
@@ -211,18 +234,42 @@ $(function () {
 					runVal3 = true;
 				}		
 				
-				if (($.inArray(settings.catAllText, selectedValArray1) > -1) && settings.cat1FormTyp == "checkbox") {
-					//console.log("cat 1 any checkbox");
-					runVal1 = true;
+					
+				if (settings.catCheckBoxRel == 'and') {
+					var tempCBDef2 = settings.catAnyText;
+					//only if catCheckBoxRel condition is "and" the "any" checkbox shows all results for this checkboxfieldgroup
+					if (($.inArray(tempCBDef2, selectedValArray1) > -1) && settings.cat1FormTyp == "checkbox") {
+						//console.log("cat 1 any checkbox");
+						runVal1 = true;
+					}
+					if (($.inArray(tempCBDef2, selectedValArray2) > -1) && settings.cat2FormTyp == "checkbox") {
+						//console.log("cat 2 any checkbox");
+						runVal2 = true;
+					}
+					if (($.inArray(tempCBDef2, selectedValArray3) > -1) && settings.cat2FormTyp == "checkbox") {
+						//console.log("cat 3 any checkbox");
+						runVal3 = true;
+					}	
 				}
-				if (($.inArray(settings.catAllText, selectedValArray2) > -1) && settings.cat2FormTyp == "checkbox") {
-					//console.log("cat 2 any checkbox");
-					runVal2 = true;
+				else {
+					var tempCBDef2 = settings.catAllText;
+					//only if catCheckBoxRel condition is "or" the "all" checkbox shows all results for this checkboxfieldgroup
+					if (($.inArray(tempCBDef2, selectedValArray1) > -1 || selectedValArray1.length == 0) && settings.cat1FormTyp == "checkbox") {
+						//console.log("cat 1 any checkbox");
+						runVal1 = true;
+					}
+					if (($.inArray(tempCBDef2, selectedValArray2) > -1 || selectedValArray2.length == 0) && settings.cat2FormTyp == "checkbox") {
+						//console.log("cat 2 any checkbox");
+						runVal2 = true;
+					}
+					if (($.inArray(tempCBDef2, selectedValArray3) > -1 || selectedValArray3.length == 0) && settings.cat2FormTyp == "checkbox") {
+						//console.log("cat 3 any checkbox");
+						runVal3 = true;
+					}	
 				}
-				if (($.inArray(settings.catAllText, selectedValArray3) > -1) && settings.cat2FormTyp == "checkbox") {
-					//console.log("cat 3 any checkbox");
-					runVal3 = true;
-				}	
+		
+				
+			
 				
 				// ### AND ###
 				var visCnt = 0;
@@ -234,6 +281,7 @@ $(function () {
 					var stopVal1 = false;
 					var stopVal2 = false;
 					var stopVal3 = false;
+					
 					if ($(this).attr("data-cat1") && settings.cat1FormTyp != false) {
 						var tempArray = [];
 						var tempPArray = [];
@@ -243,22 +291,29 @@ $(function () {
 							tempPArray.push(tempV0);
 						});
 						$(selectedValArray1).each(function (k2,v2) {
-							if(stopVal1 == false) {
+							
+							if(settings.catCheckBoxRel == "or" && settings.cat1FormTyp == "checkbox") {
+								// OR Condition in Checkbox
 								if ($.inArray($.trim(v2), tempPArray) > -1) {
-									//selected value is in data-cat1 attribute
-									//console.log(v2 + " is in data-cat1 - show entry nr.: " + k1);
 									showItem1 = true;
 								}
-								else {
-									//selected value is in data-cat1 attribute
-									//console.log(v2 + " is NOT in data-cat1 - hide entry nr.: " + k1);
-									showItem1 = false;
-									//if one item fails -> all fails
-									stopVal1 = true;
-								}
+							}
+							else {
+								// Select / AND Condition in checkbox
+								if(stopVal1 == false) {
+									if ($.inArray($.trim(v2), tempPArray) > -1) {
+										showItem1 = true;
+									}
+									else {
+										showItem1 = false;
+										//if one item fails -> all fails
+										stopVal1 = true;
+									}
+								}	
 							}
 						});
 					}
+					
 					if ($(this).attr("data-cat2") && settings.cat2FormTyp != false) {
 						var tempArray = []; 
 						tempArray = $(this).attr("data-cat2").trim().split(',');
@@ -267,22 +322,29 @@ $(function () {
 							tempPArray.push(tempV0);
 						});
 						$(selectedValArray2).each(function (k2,v2) {
-							if(stopVal2 == false) {
+							
+							if(settings.catCheckBoxRel == "or" && settings.cat2FormTyp == "checkbox") {
+								// OR Condition in Checkbox
 								if ($.inArray($.trim(v2), tempPArray) > -1) {
-									//selected value is in data-cat1 attribute
-									//console.log(v2 + " is in data-cat2 - show entry nr.: " + k1);
 									showItem2 = true;
 								}
-								else {
-									//selected value is in data-cat1 attribute
-									//console.log(v2 + " is NOT in data-cat2 - hide entry nr.: " + k1);
-									showItem2 = false;
-									//if one item fails -> all fails
-									stopVal2 = true;
-								}
-							}	
+							}
+							else {
+								// Select / AND Condition in checkbox
+								if(stopVal2 == false) {
+									if ($.inArray($.trim(v2), tempPArray) > -1) {
+										showItem2 = true;
+									}
+									else {
+										showItem2 = false;
+										//if one item fails -> all fails
+										stopVal2 = true;
+									}
+								}	
+							}
 						});
 					}
+					
 					if ($(this).attr("data-cat3") && settings.cat3FormTyp != false) {
 						var tempArray = []; 
 						tempArray = $(this).attr("data-cat3").trim().split(',');
@@ -291,20 +353,25 @@ $(function () {
 							tempPArray.push(tempV0);
 						});
 						$(selectedValArray3).each(function (k2,v2) {
-							if(stopVal3 == false) {
+							if(settings.catCheckBoxRel == "or" && settings.cat1FormTyp == "checkbox") {
+								// OR Condition in Checkbox
 								if ($.inArray($.trim(v2), tempPArray) > -1) {
-									//selected value is in data-cat1 attribute
-									//console.log(v2 + " is in data-cat3 - show entry nr.: " + k1);
-									showItem3 = true;
+									showItem1 = true;
 								}
-								else {
-									//selected value is in data-cat1 attribute
-									//console.log(v2 + " is NOT in data-cat3 - hide entry nr.: " + k1);
-									showItem3 = false;
-									//if one item fails -> all fails
-									stopVal3 = true;
-								}
-							}	
+							}
+							else {
+								// Select / AND Condition in checkbox
+								if(stopVal3 == false) {
+									if ($.inArray($.trim(v2), tempPArray) > -1) {
+										showItem3 = true;
+									}
+									else {
+										showItem3 = false;
+										//if one item fails -> all fails
+										stopVal3 = true;
+									}
+								}	
+							}
 						});
 					}
 					
