@@ -1,8 +1,8 @@
 /*
 
  * Name: jquery.accesibleContentFilter.js
- * Version: 0.9
- * Date: 2015-12-28
+ * Version: 0.9.1
+ * Date: 2015-03-29
  * Autor: wh
 
 */
@@ -11,12 +11,18 @@ $(function () {
 	
 	$.fn.acf = function(settings) {
 		
-		/* config  */
+		/* globals  */
 		var cat1Array = [];
 		var cat2Array = [];
 		var cat3Array = [];
 		var catEntryArray = [];
-		/* / config  */
+		var preCat1 = "";
+		var preCat2 = "";
+		var preCat3 = "";
+		var preCat1Array = [];
+		var preCat2Array = [];
+		var preCat3Array = [];
+		/* / globals  */
 		
 		var acfContainer = this.attr("id");
 
@@ -45,24 +51,46 @@ $(function () {
 
 		init = function() {
 			if($(settings.listClass).length > 0 ) {
+				getPreFilter();
 				buildFilter(); 	
 				doFilter(); 
 			}
 		}
 		init();
 		
+		
+		function getPreFilter() {
+			/* querystring prefill filter */
+			
+			preCat1 = getParameterByName("cat1");
+			preCat2 = getParameterByName("cat2");
+			preCat3 = getParameterByName("cat3");
+			if (preCat1 && preCat1 != "") {
+				preCat1Array = preCat1.trim().split(',');
+			}
+			if (preCat2 && preCat2 != "") {
+				preCat2Array = preCat2.trim().split(',');
+			}
+			if (preCat3 && preCat3 != "") {
+				preCat3Array = preCat3.trim().split(',');
+			}
+			//console.log("preCat1Array=" + preCat1Array + " preCat2Array=" + preCat2Array + " preCat3Array=" + preCat3Array); 
+		}
+		
+		
 		function buildFilter() {
-			
-			
+			var tempV2 = "";
 			var entryId = 0;
 			$(settings.listClass).each(function (k1,v1) {
 
 				if ($(this).attr("data-cat1") && settings.cat1FormTyp != false) {
 					var tempArray = $(this).attr("data-cat1").trim().split(',');
 					$(tempArray).each(function (k2,v2) {
-						var tempV2 = $.trim(v2)
-						if ($.inArray($.trim(v2), cat1Array) == -1) {
-						   cat1Array.push($.trim(v2));
+						tempV2 = $.trim(v2)
+						tempV2 = decodeURIComponent(escape(tempV2));
+						
+						if ($.inArray($.trim(tempV2), cat1Array) == -1) {
+						   cat1Array.push($.trim(tempV2));
 						}
 					});
 				}
@@ -70,20 +98,34 @@ $(function () {
 				if ($(this).attr("data-cat2") && settings.cat2FormTyp != false) {
 					var tempArray = $(this).attr("data-cat2").trim().split(',');
 					$(tempArray).each(function (k2,v2) {
-						if ($.inArray($.trim(v2), cat2Array) == -1) {
-						   cat2Array.push($.trim(v2));
+						tempV2 = $.trim(v2)
+						tempV2 = decodeURIComponent(escape(tempV2));
+						
+						if ($.inArray($.trim(tempV2), cat2Array) == -1) {
+						   cat2Array.push($.trim(tempV2));
 						}
 					});
+
 				}
 				if ($(this).attr("data-cat3") && settings.cat3FormTyp != false) {
 					var tempArray = $(this).attr("data-cat3").trim().split(',');
 					$(tempArray).each(function (k2,v2) {
-						if ($.inArray($.trim(v2), cat3Array) == -1) { 
-						   cat3Array.push($.trim(v2));
+						tempV2 = $.trim(v2)
+						tempV2 = decodeURIComponent(escape(tempV2));
+						
+						if ($.inArray($.trim(tempV2), cat3Array) == -1) { 
+						   cat3Array.push($.trim(tempV2));
 						}
 					});
 				}	
-			entryId++;
+				
+				if (entryId % 2 == 0){
+				  $(this).removeClass('even');
+				}
+				else{
+				  $(this).addClass('even');
+				}	
+				entryId++;
 			});
 			//console.log("catEntryArray:" + JSON.stringify(catEntryArray));
 			
@@ -92,16 +134,27 @@ $(function () {
 			
 			if(cat1Array.length > 0){
 				if(settings.cat1FormTyp == "select") {
+
 					var acfSel1 = $('<div class="acf_formitem acf_select"><label for="acf_Select1">' + settings.cat1FormLabel + ': </label><select id="acf_Select1" name="acf_Select1">').appendTo("#acfFilterbar");
 					$('#acf_Select1').append($("<option>").attr('value', settings.catAllText).text(settings.catAllText));
 					$(cat1Array).each(function(k1,v1) {
-						$('#acf_Select1').append($("<option>").attr('value',v1).text(v1));
+						if ($.inArray(v1, preCat1Array) != -1) {
+							$('#acf_Select1').append($("<option selected>").attr('value',v1).text(v1));
+						}
+						else {
+							$('#acf_Select1').append($("<option>").attr('value',v1).text(v1));
+						}
 					});
 				}
 				else if(settings.cat1FormTyp == "checkbox") {
 					var acfSel1 = $('<div id="acf_checkboxes1" class="acf_formitem"><strong>' + settings.cat1FormLabel + ': </strong>').appendTo("#acfFilterbar");
 					$(cat1Array).each(function(k1,v1) {
-						var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
+						if ($.inArray(v1, preCat1Array) != -1) {
+							var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
+						}
+						else {
+							var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
+						}
 						$('#acf_checkboxes1').append(tempCheck);
 					});
 					if (settings.catCheckBoxRel == 'and') {
@@ -124,13 +177,23 @@ $(function () {
 					var acfSel2 = $('<div class="acf_formitem acf_select"><label for="acf_Select2">' + settings.cat2FormLabel + ': </label><select id="acf_Select2" name="acf_Select2">').appendTo("#acfFilterbar");
 					$('#acf_Select2').append($("<option>").attr('value', settings.catAllText).text(settings.catAllText));
 					$(cat2Array).each(function(k1,v1) {
-						$('#acf_Select2').append($("<option>").attr('value',v1).text(v1));
+						if ($.inArray(v1, preCat2Array) != -1) {
+							$('#acf_Select2').append($("<option selected>").attr('value',v1).text(v1));
+						}
+						else {
+							$('#acf_Select2').append($("<option>").attr('value',v1).text(v1));
+						}			
 					});
 				}
 				else if(settings.cat2FormTyp == "checkbox") {
 					var acfSel2 = $('<div id="acf_checkboxes2" class="acf_formitem"><strong>' + settings.cat2FormLabel + ': </strong>').appendTo("#acfFilterbar");
 					$(cat2Array).each(function(k1,v1) {
-						var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
+						if ($.inArray(v1, preCat2Array) != -1) {
+							var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
+						}
+						else {
+							var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
+						}
 						$('#acf_checkboxes2').append(tempCheck);
 					});
 						
@@ -153,13 +216,25 @@ $(function () {
 					var acfSel3 = $('<div class="acf_formitem acf_select"><label for="acf_Select3">' + settings.cat3FormLabel + ': </label><select id="acf_Select3" name="acf_Select3">').appendTo("#acfFilterbar");
 					$('#acf_Select3').append($("<option>").attr('value', settings.catAllText).text(settings.catAllText));
 					$(cat3Array).each(function(k1,v1) {
-						$('#acf_Select3').append($("<option>").attr('value',v1).text(v1));
+						if ($.inArray(v1, preCat3Array) != -1) {
+							$('#acf_Select3').append($("<option selected>").attr('value',v1).text(v1));
+						}
+						else {
+							$('#acf_Select3').append($("<option>").attr('value',v1).text(v1));
+						}	
 					});
 				}
 				else if(settings.cat3FormTyp == "checkbox") {
 					var acfSel3 = $('<div id="acf_checkboxes3" class="acf_formitem"><strong>' + settings.cat3FormLabel + ': </strong>').appendTo("#acfFilterbar");
 					$(cat3Array).each(function(k1,v1) {
-						var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
+						
+						if ($.inArray(v1, preCat3Array) != -1) {
+							var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
+						}
+						else {
+							var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
+						}
+
 						$('#acf_checkboxes3').append(tempCheck);
 					});
 					
@@ -194,14 +269,26 @@ $(function () {
 			else {
 				$("#acf_resultcnt").html(itemAnz + ' ' + settings.catYesResult);
 			}
-			
-				
+
 		}
 		
 		function doFilter() {
+			
+			if (preCat1Array.length > 0 ||  preCat2Array.length > 0 || preCat3Array.length > 0) {
+			
+				//console.log("AUTOSUBMIT");
+				doAutoSubmit();
+			}
+			
 			$("#acf_mainForm").on( "submit", function(event) {
-
+				doAutoSubmit();
+				event.preventDefault();
+			});
+			
+			function doAutoSubmit() {
+					
 				//get selected values
+				var tempV2 = "";
 				var selectedReturnArray = [];
 				var selectedValArrayAll = [];
 				var selectedValArray1 = [];
@@ -216,9 +303,10 @@ $(function () {
 				selectedValArray2 = selectedReturnArray[2];
 				selectedValArray3 = selectedReturnArray[3];
 				
-				console.log("selectedValArray1.lenght=" + selectedValArray1.length);
-				console.log("selectedValArray2.lenght=" + selectedValArray2.length);
-				console.log("selectedValArray3.lenght=" + selectedValArray3.length);
+				var hashParam = "";
+				hashParam = "cat1=" + selectedValArray1 + "&cat2=" + selectedValArray2 + "&cat3=" + selectedValArray3;
+				console.log("hashParam=" + hashParam);
+				location.hash = hashParam;
 				
 				//if any is selected in select or checkboxes -> value check is always true
 				if ((selectedValArray1.length == cat1Array.length) && settings.cat1FormTyp == "select") {
@@ -267,10 +355,7 @@ $(function () {
 						runVal3 = true;
 					}	
 				}
-		
-				
-			
-				
+
 				// ### AND ###
 				var visCnt = 0;
 				$(settings.listClass).each(function (k1,v1) {
@@ -287,8 +372,9 @@ $(function () {
 						var tempPArray = [];
 						tempArray = $(this).attr("data-cat1").trim().split(',');
 						$(tempArray).each(function (k0,v0) {
-							var tempV0 = $.trim(v0)
-							tempPArray.push(tempV0);
+							var tempV0 = $.trim(v0);
+							tempV2 = decodeURIComponent(escape(tempV0));
+							tempPArray.push(tempV2);
 						});
 						$(selectedValArray1).each(function (k2,v2) {
 							
@@ -318,8 +404,9 @@ $(function () {
 						var tempArray = []; 
 						tempArray = $(this).attr("data-cat2").trim().split(',');
 						$(tempArray).each(function (k0,v0) {
-							var tempV0 = $.trim(v0)
-							tempPArray.push(tempV0);
+							var tempV0 = $.trim(v0);
+							tempV2 = decodeURIComponent(escape(tempV0));
+							tempPArray.push(tempV2);
 						});
 						$(selectedValArray2).each(function (k2,v2) {
 							
@@ -349,8 +436,9 @@ $(function () {
 						var tempArray = []; 
 						tempArray = $(this).attr("data-cat3").trim().split(',');
 						$(tempArray).each(function (k0,v0) {
-							var tempV0 = $.trim(v0)
-							tempPArray.push(tempV0);
+							var tempV0 = $.trim(v0);
+							tempV2 = decodeURIComponent(escape(tempV0));
+							tempPArray.push(tempV2);
 						});
 						$(selectedValArray3).each(function (k2,v2) {
 							if(settings.catCheckBoxRel == "or" && settings.cat1FormTyp == "checkbox") {
@@ -398,9 +486,16 @@ $(function () {
 					if(settings.catHideModus == "fade") {
 						if (showItem1 == true && showItem2 == true && showItem3 == true) {
 							$(this).fadeIn('3000');
+							if (visCnt % 2 == 0){
+							  $(this).removeClass('even');
+							}
+							else{
+							  $(this).addClass('even');
+							}
 							visCnt++;
 						} else {
-							$(this).fadeOut('500');
+							$(this).fadeOut('500');	
+							$(this).removeClass('even');
 						}
 					}							
 				});
@@ -417,32 +512,9 @@ $(function () {
 					$("#acf_resultcnt").attr("aria-relevant", "all");
 				}
 				
-				
-				
-				// ### OR ###
-				//hide all - find any matching items and show entry	
-				/*
-				$(settings.listClass).each(function(k1,v1) {
-					$(this).addClass("passive");
-				});
-				$(selectedValArray1).each(function(k1,v1) {
-					//console.log("show cat1:" + v1);
-					$( "div" + settings.listClass + "[data-cat1*='" + v1 + "']").removeClass("passive");
-					//$( "div" + settings.listClass + ":not([data-cat3*='" + v1 + "'])").addClass("passive");
-				});
-				$(selectedValArray2).each(function(k1,v1) {
-					//console.log("show cat2:" + v1);
-					$( "div" + settings.listClass + "[data-cat2*='" + v1 + "']").removeClass("passive");
-				});
-				$(selectedValArray3).each(function(k1,v1) {
-					//console.log("show cat3:" + v1);
-					$( "div" + settings.listClass + "[data-cat3*='" + v1 + "']").removeClass("passive");
-				});
-				*/
 
 
-				event.preventDefault();
-			});
+			} // / submit
 			
 			$("#acf_reset").on( "click", function(event) {
 			  	
@@ -485,7 +557,17 @@ $(function () {
 				}
 				
 				//show all	
+				var resCnt = 0;
 				$(settings.listClass).each(function(k1,v1) {
+					
+					if (resCnt % 2 == 0){
+					  $(this).removeClass('even');
+					}
+					else{
+					  $(this).addClass('even');
+					}	
+					resCnt++;
+					
 					$(this).fadeIn('50');
 				});		
 
@@ -494,6 +576,8 @@ $(function () {
 		}
 		
 		function checkSelectedValues() {
+			
+			var tempV2 = "";
 			var returnArray = [];
 			var tempArray = [];
 			var temp1Array = [];
@@ -504,63 +588,84 @@ $(function () {
 			if (settings.cat1FormTyp == "select") {
 				if ($.trim($("#acf_Select1 option:selected").val()) == settings.catAllText) {
 					$('#acf_Select1 option').each(function() {
-						if (this.value != settings.catAllText) {
-							tempArray.push($.trim(this.value));
-							temp1Array.push($.trim(this.value));
+						tempV2 = this.value;
+						tempV2 = decodeURIComponent(tempV2);
+						if (tempV2 != settings.catAllText) {
+							tempArray.push($.trim(tempV2));
+							temp1Array.push($.trim(tempV2));
 						}
 					});
 				}
 				else {
-					tempArray.push($.trim($("#acf_Select1 option:selected").val()));
-					temp1Array.push($.trim($("#acf_Select1 option:selected").val()));
+					tempV2 = $("#acf_Select1 option:selected").val();
+					tempV2 = decodeURIComponent(tempV2);
+					
+					tempArray.push($.trim(tempV2));
+					temp1Array.push($.trim(tempV2));
 				}
 			}
 			else if (settings.cat1FormTyp == "checkbox") {
 				$('input[name="acf_checkboxgroup1"]:checked').each(function() {
-				   tempArray.push($.trim(this.value));
-				   temp1Array.push($.trim(this.value));
+					 tempV2 = this.value;
+					 tempV2 = decodeURIComponent(tempV2);
+				   tempArray.push($.trim(tempV2));
+				   temp1Array.push($.trim(tempV2));
 				});
 			}
 		
 			if (settings.cat2FormTyp == "select") {
 				if ($.trim($("#acf_Select2 option:selected").val()) == settings.catAllText) {
 					$('#acf_Select2 option').each(function() {
-						if (this.value != settings.catAllText) {
-							tempArray.push($.trim(this.value));
-							temp2Array.push($.trim(this.value));
+						tempV2 = this.value;
+						tempV2 = decodeURIComponent(tempV2);
+						if (tempV2 != settings.catAllText) {
+							tempArray.push($.trim(tempV2));
+							temp2Array.push($.trim(tempV2));
 						}
 					});
 				}
 				else {
-					tempArray.push($.trim($("#acf_Select2 option:selected").val()));
-					temp2Array.push($.trim($("#acf_Select2 option:selected").val()));
+					tempV2 = $("#acf_Select2 option:selected").val();
+					tempV2 = decodeURIComponent(tempV2);
+					
+					tempArray.push($.trim(tempV2));
+					temp2Array.push($.trim(tempV2));
 				}
 			}
 			else if (settings.cat2FormTyp == "checkbox") {
 				$('input[name="acf_checkboxgroup2"]:checked').each(function() {
-				   tempArray.push($.trim(this.value));
-				   temp2Array.push($.trim(this.value));
+					 tempV2 = this.value;
+					 tempV2 = decodeURIComponent(tempV2);
+					 
+				   tempArray.push($.trim(tempV2));
+				   temp2Array.push($.trim(tempV2));
 				});
 			}
 			
 			if (settings.cat3FormTyp == "select") {
 				if ($.trim($("#acf_Select3 option:selected").val()) == settings.catAllText) {
 					$('#acf_Select3 option').each(function() {	
-					  if (this.value != settings.catAllText) {
-							tempArray.push($.trim(this.value));
-							temp3Array.push($.trim(this.value));
+						tempV2 = this.value;
+						tempV2 = decodeURIComponent(tempV2);
+					  if (tempV2 != settings.catAllText) {
+							tempArray.push($.trim(tempV2));
+							temp3Array.push($.trim(tempV2));
 						}
 					});
 				}
 				else {
-					tempArray.push($.trim($("#acf_Select3 option:selected").val()));
-					temp3Array.push($.trim($("#acf_Select3 option:selected").val()));
+					tempV2 = $("#acf_Select3 option:selected").val();
+					tempV2 = decodeURIComponent(tempV2);
+					tempArray.push($.trim(tempV2));
+					temp3Array.push($.trim(tempV2));
 				}
 			}
 			else if (settings.cat3FormTyp == "checkbox") {
 				$('input[name="acf_checkboxgroup3"]:checked').each(function() {
-				   tempArray.push($.trim(this.value));
-				   temp3Array.push($.trim(this.value));
+					 tempV2 = this.value;
+					 tempV2 = decodeURIComponent(tempV2);
+				   tempArray.push($.trim(tempV2));
+				   temp3Array.push($.trim(tempV2));
 				});
 			}
 			returnArray[0] = tempArray;
@@ -576,8 +681,21 @@ $(function () {
 			//error meldungen
 			var message = $('<div id="acfMessage">' + err + '</div>').prependTo("#" + acfContainer);
 		}
+		
+		
 
 	};
+	
+	function getParameterByName(name) {
+		var match = RegExp('[#&]' + name + '=([^&]*)').exec(document.URL);
+		return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+	}
+
+	//function getHashParameterByName(name) {
+	//	var hash = decodeURIComponent(document.URL.substr(document.URL.indexOf('#')+1).replace(/\+/g, ' '));
+	//	return hash; 
+	//}
+	
 
 }(jQuery));	
 							

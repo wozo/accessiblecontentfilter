@@ -59,4 +59,4 @@ $(selector).acf({
 
 ### todo
 
-testing, performance improvement
+testing, improvement
