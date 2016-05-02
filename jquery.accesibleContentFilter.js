@@ -1,8 +1,8 @@
 /*
 
  * Name: jquery.accesibleContentFilter.js
- * Version: 0.9.1
- * Date: 2015-03-29
+ * Version: 0.9.2
+ * Date: 2015-04-02
  * Autor: wh
 
 */
@@ -45,7 +45,9 @@ $(function () {
 			catYesSingleResult: "match found.",
 			catFilterLegend: "Choose filter categories",
 			catAllText: "all",
-			catAnyText: "any"
+			catAnyText: "any",
+			hideCatAnyText: true,
+			decodeURIEscape: true
 			
 		}, settings );
 
@@ -150,16 +152,21 @@ $(function () {
 					var acfSel1 = $('<div id="acf_checkboxes1" class="acf_formitem"><strong>' + settings.cat1FormLabel + ': </strong>').appendTo("#acfFilterbar");
 					$(cat1Array).each(function(k1,v1) {
 						if ($.inArray(v1, preCat1Array) != -1) {
-							var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
+							var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" class="acf_checkboxes1" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
 						}
 						else {
-							var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
+							var tempCheck = '<label for="acf_checkboxes1_' + k1 + '" class="acf_checkbox"><input type="checkbox" class="acf_checkboxes1" name="acf_checkboxgroup1" value="' + v1 + '" id="acf_checkboxes1_' + k1 + '"> ' + v1 + '</label> ';
 						}
 						$('#acf_checkboxes1').append(tempCheck);
 					});
 					if (settings.catCheckBoxRel == 'and') {
 						var tempCBDef = settings.catAnyText;
-						var tempCheckAny = '<label for="acf_checkboxes1_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup1" value="' + tempCBDef + '" id="acf_checkboxes1_any"> ' + tempCBDef + '</label> ';
+						if((preCat1Array.length == 1 && $.inArray(tempCBDef, preCat1Array) != -1) || preCat1Array.length < 1) {
+							var tempCheckAny = '<label for="acf_checkboxes1_any" class="acf_checkbox acf_checkboxany"><input checked type="checkbox" name="acf_checkboxgroup1" value="' + tempCBDef + '" id="acf_checkboxes1_any"> ' + tempCBDef + '</label> ';
+						}
+						else {
+							var tempCheckAny = '<label for="acf_checkboxes1_any" class="acf_checkbox acf_checkboxany"><input type="checkbox" name="acf_checkboxgroup1" value="' + tempCBDef + '" id="acf_checkboxes1_any"> ' + tempCBDef + '</label> ';
+						}
 						$('#acf_checkboxes1').append(tempCheckAny);
 					}
 					
@@ -189,17 +196,22 @@ $(function () {
 					var acfSel2 = $('<div id="acf_checkboxes2" class="acf_formitem"><strong>' + settings.cat2FormLabel + ': </strong>').appendTo("#acfFilterbar");
 					$(cat2Array).each(function(k1,v1) {
 						if ($.inArray(v1, preCat2Array) != -1) {
-							var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
+							var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input checked class="acf_checkboxes2" type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
 						}
 						else {
-							var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
+							var tempCheck = '<label for="acf_checkboxes2_' + k1 + '" class="acf_checkbox"><input  class="acf_checkboxes2" type="checkbox" name="acf_checkboxgroup2" value="' + v1 + '" id="acf_checkboxes2_' + k1 + '"> ' + v1 + '</label> ';
 						}
 						$('#acf_checkboxes2').append(tempCheck);
 					});
 						
 					if (settings.catCheckBoxRel == 'and') {
 						var tempCBDef = settings.catAnyText;
-						var tempCheckAny = '<label for="acf_checkboxes2_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup2" value="' + tempCBDef + '" id="acf_checkboxes2_any"> ' + tempCBDef + '</label> ';
+						if((preCat2Array.length == 1 && $.inArray(tempCBDef, preCat2Array) != -1) || preCat2Array.length < 1) {
+							var tempCheckAny = '<label for="acf_checkboxes2_any" class="acf_checkbox acf_checkboxany"><input checked type="checkbox" name="acf_checkboxgroup2" value="' + tempCBDef + '" id="acf_checkboxes2_any"> ' + tempCBDef + '</label> ';
+						}
+						else {
+							var tempCheckAny = '<label for="acf_checkboxes2_any" class="acf_checkbox acf_checkboxany"><input type="checkbox" name="acf_checkboxgroup2" value="' + tempCBDef + '" id="acf_checkboxes2_any"> ' + tempCBDef + '</label> ';
+						}
 						$('#acf_checkboxes2').append(tempCheckAny);
 					}			
 				}
@@ -229,10 +241,10 @@ $(function () {
 					$(cat3Array).each(function(k1,v1) {
 						
 						if ($.inArray(v1, preCat3Array) != -1) {
-							var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
+							var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input checked  class="acf_checkboxes3" type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
 						}
 						else {
-							var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
+							var tempCheck = '<label for="acf_checkboxes3_' + k1 + '" class="acf_checkbox"><input  class="acf_checkboxes3" type="checkbox" name="acf_checkboxgroup3" value="' + v1 + '" id="acf_checkboxes3_' + k1 + '"> ' + v1 + '</label> ';
 						}
 
 						$('#acf_checkboxes3').append(tempCheck);
@@ -240,7 +252,12 @@ $(function () {
 					
 					if (settings.catCheckBoxRel == 'and') {
 						var tempCBDef = settings.catAnyText;
-						var tempCheckAny = '<label for="acf_checkboxes3_any" class="acf_checkbox"><input checked type="checkbox" name="acf_checkboxgroup3" value="' + tempCBDef + '" id="acf_checkboxes3_any"> ' + tempCBDef + '</label> ';
+						if((preCat3Array.length == 1 && $.inArray(tempCBDef, preCat3Array) != -1) || preCat3Array.length < 1) {
+							var tempCheckAny = '<label for="acf_checkboxes3_any" class="acf_checkbox acf_checkboxany"><input checked type="checkbox" name="acf_checkboxgroup3" value="' + tempCBDef + '" id="acf_checkboxes3_any"> ' + tempCBDef + '</label> ';
+						}
+						else {
+							var tempCheckAny = '<label for="acf_checkboxes3_any" class="acf_checkbox acf_checkboxany"><input type="checkbox" name="acf_checkboxgroup3" value="' + tempCBDef + '" id="acf_checkboxes3_any"> ' + tempCBDef + '</label> ';
+						}
 						$('#acf_checkboxes3').append(tempCheckAny);
 					}
 					
@@ -269,7 +286,76 @@ $(function () {
 			else {
 				$("#acf_resultcnt").html(itemAnz + ' ' + settings.catYesResult);
 			}
+			
+			
+			//checkbox any change 
+			
+			if(settings.catCheckBoxRel == "and") {
+				if (settings.hideCatAnyText == true) {
+					$("label.acf_checkboxany").hide();
+				}
+				
+				if(settings.cat1FormTyp == "checkbox") {	
+					$(document).on('change', '#acf_checkboxes1 input', function() {
+		      	if ($(this).attr('checked') == "checked") {
+		      		$("#acf_checkboxes1_any").attr('checked', false);  
+		     		}
+		     		else {
+		     			var oneofthem = false;
+		     	 		$("#acf_checkboxes1 input.acf_checkboxes1").each(function (k1,v1) {
+		     	 			if ($(this).attr('checked') ==  "checked") {
+		     	 				oneofthem = true;
+		     	 			}    
+		     	 		});
+		     	 		if(oneofthem == false) {
+		     	 			$("#acf_checkboxes1_any").attr('checked', true); 
+		     	 		}
+		    		}
+		    	});
+    		}
+    		
+    		if(settings.cat2FormTyp == "checkbox") {	
+					$(document).on('change', '#acf_checkboxes2 input', function() {
+		      	if ($(this).attr('checked') == "checked") {
+		      		$("#acf_checkboxes2_any").attr('checked', false);  
+		     		}
+		     		else {
+		     			var oneofthem = false;
+		     	 		$("#acf_checkboxes2 input.acf_checkboxes2").each(function (k1,v1) {
+		     	 			if ($(this).attr('checked') ==  "checked") {
+		     	 				oneofthem = true;
+		     	 			}    
+		     	 		});
+		     	 		if(oneofthem == false) {
+		     	 			$("#acf_checkboxes2_any").attr('checked', true); 
+		     	 		}
+		    		}
+		    	});
+    		}
+    		
+    		if(settings.cat3FormTyp == "checkbox") {	
+					$(document).on('change', '#acf_checkboxes3 input', function() {
+		      
+		      	if ($(this).attr('checked') == "checked") {
+		      		$("#acf_checkboxes3_any").attr('checked', false);  
+		     		}
+		     		else {
+		     			var oneofthem = false;
+		     	 		$("#acf_checkboxes3 input.acf_checkboxes3").each(function (k1,v1) {
+		     	 			if ($(this).attr('checked') ==  "checked") {
+		     	 				oneofthem = true;
+		     	 			}    
+		     	 		});
+		     	 		if(oneofthem == false) {
+		     	 			$("#acf_checkboxes3_any").attr('checked', true); 
+		     	 		}
+		    		}
+		    	});
+    		}    		
 
+			}
+
+	
 		}
 		
 		function doFilter() {
@@ -304,8 +390,19 @@ $(function () {
 				selectedValArray3 = selectedReturnArray[3];
 				
 				var hashParam = "";
-				hashParam = "cat1=" + selectedValArray1 + "&cat2=" + selectedValArray2 + "&cat3=" + selectedValArray3;
-				console.log("hashParam=" + hashParam);
+				
+				
+				if (settings.cat1FormTyp != false){
+					hashParam = "cat1=" + selectedValArray1;
+				}
+				if (settings.cat2FormTyp != false){
+					hashParam = hashParam + "&cat2=" + selectedValArray2;
+				}
+				if (settings.cat3FormTyp != false){
+					hashParam = hashParam +  "&cat3=" + selectedValArray3;
+				}		
+				
+				//console.log("hashParam=" + hashParam);
 				location.hash = hashParam;
 				
 				//if any is selected in select or checkboxes -> value check is always true
