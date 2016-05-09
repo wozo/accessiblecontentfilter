@@ -2,7 +2,7 @@
 
  * Name: jquery.accesibleContentFilter.js
  * Version: 0.9.2
- * Date: 2015-04-02
+ * Date: 2015-04-09
  * Autor: wh
 
 */
@@ -47,7 +47,7 @@ $(function () {
 			catAllText: "all",
 			catAnyText: "any",
 			hideCatAnyText: true,
-			decodeURIEscape: true
+			decodeUriEscape: false
 			
 		}, settings );
 
@@ -89,7 +89,12 @@ $(function () {
 					var tempArray = $(this).attr("data-cat1").trim().split(',');
 					$(tempArray).each(function (k2,v2) {
 						tempV2 = $.trim(v2)
-						tempV2 = decodeURIComponent(escape(tempV2));
+						if (settings.decodeUriEscape ==  true) {
+							tempV2 = decodeURIComponent(escape(tempV2));
+						}
+						else {
+							tempV2 = decodeURIComponent(tempV2);
+						}
 						
 						if ($.inArray($.trim(tempV2), cat1Array) == -1) {
 						   cat1Array.push($.trim(tempV2));
@@ -101,8 +106,13 @@ $(function () {
 					var tempArray = $(this).attr("data-cat2").trim().split(',');
 					$(tempArray).each(function (k2,v2) {
 						tempV2 = $.trim(v2)
-						tempV2 = decodeURIComponent(escape(tempV2));
-						
+						if (settings.decodeUriEscape ==  true) {
+							tempV2 = decodeURIComponent(escape(tempV2));
+						}
+						else {
+							tempV2 = decodeURIComponent(tempV2);
+						}
+
 						if ($.inArray($.trim(tempV2), cat2Array) == -1) {
 						   cat2Array.push($.trim(tempV2));
 						}
@@ -113,7 +123,14 @@ $(function () {
 					var tempArray = $(this).attr("data-cat3").trim().split(',');
 					$(tempArray).each(function (k2,v2) {
 						tempV2 = $.trim(v2)
-						tempV2 = decodeURIComponent(escape(tempV2));
+						if (settings.decodeUriEscape ==  true) {
+							tempV2 = decodeURIComponent(escape(tempV2));
+						}
+						else {
+							tempV2 = decodeURIComponent(tempV2);
+						}
+						
+						
 						
 						if ($.inArray($.trim(tempV2), cat3Array) == -1) { 
 						   cat3Array.push($.trim(tempV2));
@@ -470,7 +487,12 @@ $(function () {
 						tempArray = $(this).attr("data-cat1").trim().split(',');
 						$(tempArray).each(function (k0,v0) {
 							var tempV0 = $.trim(v0);
-							tempV2 = decodeURIComponent(escape(tempV0));
+							if (settings.decodeUriEscape ==  true) {
+								tempV2 = decodeURIComponent(escape(tempV0));
+							}
+							else {
+								tempV2 = decodeURIComponent(tempV0);
+							}
 							tempPArray.push(tempV2);
 						});
 						$(selectedValArray1).each(function (k2,v2) {
@@ -502,7 +524,12 @@ $(function () {
 						tempArray = $(this).attr("data-cat2").trim().split(',');
 						$(tempArray).each(function (k0,v0) {
 							var tempV0 = $.trim(v0);
-							tempV2 = decodeURIComponent(escape(tempV0));
+							if (settings.decodeUriEscape ==  true) {
+								tempV2 = decodeURIComponent(escape(tempV0));
+							}
+							else {
+								tempV2 = decodeURIComponent(tempV0);
+							}
 							tempPArray.push(tempV2);
 						});
 						$(selectedValArray2).each(function (k2,v2) {
@@ -534,7 +561,12 @@ $(function () {
 						tempArray = $(this).attr("data-cat3").trim().split(',');
 						$(tempArray).each(function (k0,v0) {
 							var tempV0 = $.trim(v0);
-							tempV2 = decodeURIComponent(escape(tempV0));
+							if (settings.decodeUriEscape ==  true) {
+								tempV2 = decodeURIComponent(escape(tempV0));
+							}
+							else {
+								tempV2 = decodeURIComponent(tempV0);
+							}
 							tempPArray.push(tempV2);
 						});
 						$(selectedValArray3).each(function (k2,v2) {
